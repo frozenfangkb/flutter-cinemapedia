@@ -1,5 +1,5 @@
 import 'package:cinemapedia/domain/entities/movie.dart';
 
-abstract class MoviesRepository {
+abstract class MovieRepository {
   Future<List<Movie>> getNowPlaying({int page = 1});
 }
