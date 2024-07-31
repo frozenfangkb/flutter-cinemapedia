@@ -128,10 +128,14 @@ class _Slide extends StatelessWidget {
               children: [
                 Icon(Icons.star_half_outlined, color: Colors.yellow.shade800),
                 const SizedBox(width: 3),
-                Text('${HumanFormats.number(movie.voteAverage, 1)}',
+                Text(HumanFormats.number(movie.voteAverage, 1),
                     style: textStyle.bodyMedium
                         ?.copyWith(color: Colors.yellow.shade800)),
                 const Spacer(),
+                Icon(Icons.people_alt_outlined, color: Colors.green.shade800),
+                const SizedBox(
+                  width: 3,
+                ),
                 Text(HumanFormats.number(movie.popularity),
                     style: textStyle.bodySmall)
               ],
@@ -154,7 +158,7 @@ class _Title extends StatelessWidget {
     final titleStyle = Theme.of(context).textTheme.titleLarge;
 
     return Container(
-      padding: const EdgeInsets.only(top: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10),
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: Row(
         children: [
