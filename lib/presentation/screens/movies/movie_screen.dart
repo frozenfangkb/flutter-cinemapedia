@@ -1,5 +1,6 @@
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/movies/movie_details_provider.dart';
+import 'package:cinemapedia/presentation/widgets/shared/gradient_cover.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -40,7 +41,54 @@ class MovieScreenState extends ConsumerState<MovieScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text("MovieID: ${widget.movieId}")),
+        body: CustomScrollView(
+      physics: const ClampingScrollPhysics(),
+      slivers: [_CustomSliverAppBar(movie: movie)],
+    ));
+  }
+}
+
+class _CustomSliverAppBar extends StatelessWidget {
+  final Movie movie;
+
+  const _CustomSliverAppBar({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
+    return SliverAppBar(
+      backgroundColor: Colors.black,
+      expandedHeight: size.height * 0.7,
+      foregroundColor: Colors.white,
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
+        title: Text(
+          movie.title,
+          style: const TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.start,
+        ),
+        background: Stack(
+          children: [
+            SizedBox.expand(
+              child: Image.network(movie.posterPath, fit: BoxFit.cover),
+            ),
+            const GradientCover(
+              startAlignment: Alignment.topCenter,
+              endAlignment: Alignment.bottomCenter,
+              stops: [0.7, 1.0],
+            ),
+            const GradientCover(
+              startAlignment: Alignment.topLeft,
+              colors: [Colors.black87, Colors.transparent],
+              stops: [0.0, 0.3],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
