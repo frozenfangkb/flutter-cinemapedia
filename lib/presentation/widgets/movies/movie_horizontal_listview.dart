@@ -105,8 +105,11 @@ class _Slide extends StatelessWidget {
                       );
                     }
 
-                    return FadeIn(
-                      child: child,
+                    return GestureDetector(
+                      onTap: () {
+                        context.push('/movie/${movie.id}');
+                      },
+                      child: FadeIn(child: child),
                     );
                   },
                 )),
