@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/movies/movie_details_provider.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
@@ -158,10 +159,18 @@ class _ActorsByMovie extends ConsumerWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: Image.network(
-                      width: 135,
-                      height: 180,
-                      fit: BoxFit.cover,
-                      actor.profilePath),
+                    width: 135,
+                    height: 180,
+                    fit: BoxFit.cover,
+                    actor.profilePath,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress != null) {
+                        return const SizedBox();
+                      }
+
+                      return FadeIn(child: child);
+                    },
+                  ),
                 ),
                 const SizedBox(height: 10),
                 Text(actor.name, maxLines: 2),
@@ -194,7 +203,19 @@ class _CustomSliverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         background: SizedBox.expand(
-          child: Image.network(movie.posterPath, fit: BoxFit.cover),
+          child: Image.network(
+            movie.posterPath,
+            fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress != null) {
+                return const SizedBox.expand(
+                  child: ColoredBox(color: Colors.black),
+                );
+              }
+
+              return FadeIn(child: child);
+            },
+          ),
         ),
       ),
     );
