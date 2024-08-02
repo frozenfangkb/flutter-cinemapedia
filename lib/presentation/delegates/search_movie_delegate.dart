@@ -36,7 +36,7 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text('result');
+    return const Text('result');
   }
 
   @override
@@ -45,11 +45,9 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
       future: searchMovies(query),
       builder: (context, snapshot) {
         final movies = snapshot.data ?? [];
-        print(snapshot.data);
         return ListView.builder(
           itemCount: movies.length,
-          itemBuilder: (context, index) =>
-              ListTile(title: Text(movies[index].title)),
+          itemBuilder: (context, index) => _MovieItem(movie: movies[index]),
         );
       },
     );
@@ -76,6 +74,9 @@ class _MovieItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: Image.network(movie.posterPath),
             ),
+          ),
+          Column(
+            children: [Text(movie.title, style: textStyles.titleSmall)],
           )
         ],
       ),
