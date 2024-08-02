@@ -2,7 +2,13 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
+typedef SearchMoviesCallback = Future<List<Movie>> Function(String query);
+
 class SearchMovieDelegate extends SearchDelegate<Movie?> {
+  final SearchMoviesCallback searchMovies;
+
+  SearchMovieDelegate({required this.searchMovies});
+
   @override
   String get searchFieldLabel => 'Buscar película';
 
@@ -30,13 +36,49 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    // TODO: implement buildResults
-    throw UnimplementedError();
+    return Text('result');
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    // TODO: implement buildSuggestions
-    throw UnimplementedError();
+    return FutureBuilder(
+      future: searchMovies(query),
+      builder: (context, snapshot) {
+        final movies = snapshot.data ?? [];
+        print(snapshot.data);
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (context, index) =>
+              ListTile(title: Text(movies[index].title)),
+        );
+      },
+    );
+  }
+}
+
+class _MovieItem extends StatelessWidget {
+  final Movie movie;
+
+  const _MovieItem({required this.movie});
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyles = Theme.of(context).textTheme;
+    final size = MediaQuery.of(context).size;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      child: Row(
+        children: [
+          SizedBox(
+            width: size.width * 0.2,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(movie.posterPath),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
