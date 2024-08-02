@@ -72,11 +72,35 @@ class _MovieItem extends StatelessWidget {
             width: size.width * 0.2,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20),
-              child: Image.network(movie.posterPath),
+              child: Image.network(
+                movie.posterPath,
+                loadingBuilder: (context, child, loadingProgress) => FadeIn(
+                  child: child,
+                ),
+              ),
             ),
           ),
+          const SizedBox(width: 10),
           Column(
-            children: [Text(movie.title, style: textStyles.titleSmall)],
+            children: [
+              FadeInRight(
+                duration: const Duration(milliseconds: 200),
+                child: SizedBox(
+                  width: size.width * 0.7,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        movie.title,
+                        style: textStyles.titleSmall,
+                        maxLines: 2,
+                      ),
+                      Text(movie.releaseDate)
+                    ],
+                  ),
+                ),
+              ),
+            ],
           )
         ],
       ),

@@ -1,3 +1,5 @@
+import 'package:dart_date/dart_date.dart';
+
 class MovieMovieDB {
   final bool adult;
   final String backdropPath;
@@ -8,7 +10,7 @@ class MovieMovieDB {
   final String overview;
   final double popularity;
   final String posterPath;
-  final DateTime? releaseDate;
+  final String releaseDate;
   final String title;
   final bool video;
   final double voteAverage;
@@ -44,7 +46,8 @@ class MovieMovieDB {
         releaseDate: json["release_date"] != null &&
                 json["release_date"].toString().isNotEmpty
             ? DateTime.parse(json["release_date"])
-            : null,
+                .format("dd 'de' MMMM 'de' yyyy", "es_ES")
+            : "Sin fecha de lancamiento",
         title: json["title"],
         video: json["video"],
         voteAverage: json["vote_average"]?.toDouble(),
@@ -61,9 +64,7 @@ class MovieMovieDB {
         "overview": overview,
         "popularity": popularity,
         "poster_path": posterPath,
-        "release_date": releaseDate != null
-            ? "${releaseDate!.year.toString().padLeft(4, '0')}-${releaseDate!.month.toString().padLeft(2, '0')}-${releaseDate!.day.toString().padLeft(2, '0')}"
-            : null,
+        "release_date": releaseDate,
         "title": title,
         "video": video,
         "vote_average": voteAverage,
