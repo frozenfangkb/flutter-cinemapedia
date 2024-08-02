@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:cinemapedia/config/helpers/human_formats.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:flutter/material.dart';
 
@@ -95,7 +96,21 @@ class _MovieItem extends StatelessWidget {
                         style: textStyles.titleSmall,
                         maxLines: 2,
                       ),
-                      Text(movie.releaseDate)
+                      Text(movie.releaseDate),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.star_half_rounded,
+                            color: Colors.yellow.shade800,
+                          ),
+                          Text(
+                            HumanFormats.number(movie.voteAverage, 1),
+                            style: textStyles.bodyMedium!.copyWith(
+                              color: Colors.yellow.shade800,
+                            ),
+                          )
+                        ],
+                      )
                     ],
                   ),
                 ),
