@@ -57,7 +57,7 @@ class _Slide extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           child: GestureDetector(
             onTap: () {
-              context.push('/movie/${movie.id}');
+              context.push('/home/0/movie/${movie.id}');
             },
             child: Image.network(
               movie.backdropPath,

@@ -83,7 +83,7 @@ class _Slide extends StatelessWidget {
     final textStyle = Theme.of(context).textTheme;
 
     navigateToMovie(String id) {
-      context.push('/movie/$id');
+      context.push('/home/0/movie/$id');
     }
 
     return Container(
