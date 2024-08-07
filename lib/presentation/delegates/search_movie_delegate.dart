@@ -62,7 +62,23 @@ class SearchMovieDelegate extends SearchDelegate<Movie?> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return const Text('result');
+    return StreamBuilder(
+      initialData: initialMovies,
+      stream: debouncedMovies.stream,
+      builder: (context, snapshot) {
+        final movies = snapshot.data ?? [];
+        return ListView.builder(
+          itemCount: movies.length,
+          itemBuilder: (context, index) => _MovieItem(
+            movie: movies[index],
+            onMovieSelected: (context, movie) {
+              _clearStreams();
+              close(context, movie);
+            },
+          ),
+        );
+      },
+    );
   }
 
   @override
