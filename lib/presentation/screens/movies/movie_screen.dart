@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import 'package:cinemapedia/presentation/providers/movies/movie_details_provider.dart';
 import 'package:cinemapedia/presentation/providers/providers.dart';
+import 'package:cinemapedia/presentation/widgets/shared/gradient_cover.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -201,22 +202,45 @@ class _CustomSliverAppBar extends StatelessWidget {
       backgroundColor: Colors.black,
       expandedHeight: size.height * 0.7,
       foregroundColor: Colors.white,
+      actions: [
+        IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border))
+      ],
       flexibleSpace: FlexibleSpaceBar(
-        background: SizedBox.expand(
-          child: Image.network(
-            movie.posterPath,
-            fit: BoxFit.cover,
-            loadingBuilder: (context, child, loadingProgress) {
-              if (loadingProgress != null) {
-                return const SizedBox.expand(
-                  child: ColoredBox(color: Colors.black),
-                );
-              }
+        background: Stack(children: [
+          SizedBox.expand(
+            child: Image.network(
+              movie.posterPath,
+              fit: BoxFit.cover,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress != null) {
+                  return const SizedBox.expand(
+                    child: ColoredBox(color: Colors.black),
+                  );
+                }
 
-              return FadeIn(child: child);
-            },
+                return FadeIn(child: child);
+              },
+            ),
           ),
-        ),
+          const GradientCover(
+            colors: [Colors.transparent, Colors.black87],
+            endAlignment: Alignment.bottomCenter,
+            startAlignment: Alignment.topCenter,
+            stops: [0.8, 1],
+          ),
+          const GradientCover(
+            colors: [Colors.black87, Colors.transparent],
+            endAlignment: Alignment.center,
+            startAlignment: Alignment.topLeft,
+            stops: [0, 0.4],
+          ),
+          const GradientCover(
+            colors: [Colors.black87, Colors.transparent],
+            endAlignment: Alignment.center,
+            startAlignment: Alignment.topRight,
+            stops: [0, 0.4],
+          ),
+        ]),
       ),
     );
   }
